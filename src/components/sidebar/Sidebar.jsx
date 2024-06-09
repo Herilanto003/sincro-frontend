@@ -27,7 +27,7 @@ export default function Sidebar() {
         open ? "w-[250px]" : "w-[70px]"
       } transition-all`}
     >
-      <nav className="h-full border-r shadow-md divide-y-2 p-2">
+      <nav className="h-full border-r shadow-md p-2">
         {/* ******* --- LOGO ET LE BOUTON DE FERMETURE --- ******** */}
         <div
           className={`flex items-center py-2 ${

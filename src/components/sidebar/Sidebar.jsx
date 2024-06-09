@@ -23,7 +23,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-screen sticky top-0 ${
+      className={`h-screen flex-shrink-0 sticky top-0 ${
         open ? "w-[250px]" : "w-[70px]"
       } transition-all`}
     >

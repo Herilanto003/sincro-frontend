@@ -1,10 +1,17 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { FaBell, FaMessage } from "react-icons/fa6";
+import { FaBars, FaBell, FaMessage } from "react-icons/fa6";
 
-export default function HeaderComponent() {
+export default function HeaderComponent({ handleOpenMenuMobile }) {
   return (
-    <div className="w-full bg-white border-b shadow-sm h-12 flex justify-end items-center box-border px-6">
+    <div className="w-full bg-slate-100 border-b shadow-sm h-12 flex justify-between lg:justify-end items-center box-border px-6">
+      <button
+        className="text-xl block lg:hidden"
+        onClick={handleOpenMenuMobile}
+      >
+        <FaBars />
+      </button>
+
       <div className="flex items-center justify-between space-x-6">
         <div className="relative">
           <FaMessage className="text-xl" />

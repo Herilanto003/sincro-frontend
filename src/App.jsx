@@ -5,7 +5,7 @@ import DistrictPage from "./pages/districts/DistrictPage";
 
 function App() {
   return (
-    <div className="w-full flex flex-grow">
+    <div className="w-full flex flex-grow bg-white font-sans">
       <BrowserRouter>
         <Routes>
           <Route path="/compte/regions" element={<RegionPage />} />

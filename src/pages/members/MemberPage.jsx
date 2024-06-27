@@ -2,11 +2,11 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import HeaderComponent from "../../components/header/HeaderComponent";
 import TitlePage from "../../components/utilities/TitlePage";
-import ListUtilisateurs from "../../components/utilisateurs/ListUtilisateurs";
-import CardUtilisateurs from "../../components/utilisateurs/CardUtilisateurs";
+import ListMember from "../../components/members/ListMember";
 import ConfirmModalDelete from "../../components/utilities/ConfirmModalDelete";
+import CardMember from "../../components/members/CardMember";
 
-export default function UtilisateurPage() {
+export default function MemberPage() {
   const [openMenuMobile, setOpenMenuMobile] = React.useState(false);
   const [openModalDelete, setOpenModalDelete] = React.useState(false);
   return (
@@ -23,15 +23,15 @@ export default function UtilisateurPage() {
         <HeaderComponent handleOpenMenuMobile={() => setOpenMenuMobile(true)} />
         <div className="box-border lg:p-6 p-2 text-justify w-full">
           <div className="w-full">
-            <TitlePage>Les utilisateurs</TitlePage>
+            <TitlePage>Les membres</TitlePage>
           </div>
           <div>
-            <ListUtilisateurs
+            <ListMember
               handleOpenModalDelete={() => setOpenModalDelete(true)}
             />
           </div>
           <div>
-            <CardUtilisateurs
+            <CardMember
               handleOpenModalDelete={() => setOpenModalDelete(true)}
             />
           </div>

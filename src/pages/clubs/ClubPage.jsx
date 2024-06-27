@@ -2,18 +2,20 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import HeaderComponent from "../../components/header/HeaderComponent";
 import TitlePage from "../../components/utilities/TitlePage";
-import ListRegion from "../../components/region/ListRegion";
+import ConfirmModalDelete from "../../components/utilities/ConfirmModalDelete";
+import ListClubs from "../../components/clubs/ListClubs";
+import CardClubs from "../../components/clubs/CardClubs";
 import SearchField from "../../components/utilities/SearchField";
-import AddRegionModal from "../../components/region/AddRegionModal";
-import EditRegionModal from "../../components/region/EditRegionModal";
-import ConfirmModal from "../../components/region/ConfirmModal";
+import AddClubModal from "../../components/clubs/AddClubModal";
+import EditClubModal from "../../components/clubs/EditClubModal";
+import DeleteClubModal from "../../components/clubs/DeleteClubModal";
 
-export default function RegionPage() {
-  // state pour stocker l id du region
-  const [regionId, setRegionId] = React.useState(null);
+export default function ClubPage() {
+  // state pour stocker l id du club
+  const [clubId, setClubId] = React.useState(null);
 
-  // state pour stocker l id du district
-  const [districtId, setDistrictId] = React.useState(null);
+  // state pour stocker l id du zone
+  const [zoneId, setZoneId] = React.useState(null);
 
   // state pour ouvrir le menu mobile
   const [openMenuMobile, setOpenMenuMobile] = React.useState(false);
@@ -30,40 +32,40 @@ export default function RegionPage() {
   // state pour permettre d ouvrir ou de fermer le modal d editer
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
-  // state pour stocker les regions
-  const [regions, setRegions] = React.useState([]);
+  // state pour stocker les clubs
+  const [clubs, setClubs] = React.useState([]);
 
-  // fonction pour recuperer l id du region a modifier
-  const handleOpenEditModal = (id, idDistrict) => {
-    setRegionId(id);
-    setDistrictId(idDistrict);
+  // fonction pour recuperer l id du club a modifier
+  const handleOpenEditModal = (id, idZone) => {
+    setClubId(id);
+    setZoneId(idZone);
     setOpenEditModal(true);
   };
 
-  // fonction pour recuperer l id du region a supprimer
-  const handleOpenDeleteModal = (id, idDistrict) => {
-    setRegionId(id);
-    setDistrictId(idDistrict);
+  // fonction pour recuperer l id du club a supprimer
+  const handleOpenDeleteModal = (id) => {
+    setClubId(id);
     setOpenModalDelete(true);
   };
 
   return (
     <>
-      <EditRegionModal
+      <DeleteClubModal
+        open={openModalDelete}
+        handleClose={() => setOpenModalDelete(false)}
+        id={clubId}
+      />
+      <EditClubModal
         open={openEditModal}
         handleClose={() => setOpenEditModal(false)}
-        id={regionId}
-        idDistrict={districtId}
+        id={clubId}
+        idZone={zoneId}
       />
-      <AddRegionModal
+      <AddClubModal
         open={openAddModal}
         handleClose={() => setOpenAddModal(false)}
       />
-      <ConfirmModal
-        open={openModalDelete}
-        handleClose={setOpenModalDelete}
-        id={regionId}
-      />
+
       <Sidebar
         openMenuMobile={openMenuMobile}
         closeMenuMobile={() => setOpenMenuMobile(false)}
@@ -72,16 +74,12 @@ export default function RegionPage() {
         <HeaderComponent handleOpenMenuMobile={() => setOpenMenuMobile(true)} />
         <div className="box-border lg:p-6 p-2 text-justify w-full">
           <div className="w-full">
-            <TitlePage>Les regions</TitlePage>
-            {/* <button className="bg-primary-300 rounded-sm text-gray-800 font-semibold text-md flex justify-between px-4 py-1 items-center space-x-2 transition-all hover:bg-primary-200">
-              <FaPlus />
-              <span>Nouveau region</span>
-            </button> */}
+            <TitlePage>Les Clubs</TitlePage>
           </div>
           <div>
             <div className="w-full flex flex-col-reverse space-y-3 md:space-y-0 md:flex-row md:justify-between md:items-center mb-4 md:space-x-5">
               <SearchField
-                placeholder={"rechercher district..."}
+                placeholder={"rechercher clubs..."}
                 handleSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
               />
@@ -89,10 +87,10 @@ export default function RegionPage() {
                 onClick={() => setOpenAddModal(true)}
                 className="bg-blue-500 text-sm px-4 h-10 font-semibold rounded-sm text-white flex-shrink-0 box-border hover:bg-blue-700 transition-all duration-300"
               >
-                Nouveau region
+                Nouveau club
               </button>
             </div>
-            <ListRegion
+            <ListClubs
               handleOpenModalDelete={handleOpenDeleteModal}
               // data={regions}
               searchTerm={searchTerm}

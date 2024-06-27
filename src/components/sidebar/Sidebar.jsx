@@ -7,6 +7,10 @@ import {
   FaEarthAfrica,
   FaFlag,
   FaXmark,
+  FaUserGroup,
+  FaRegFlag,
+  FaLandmark,
+  FaTags,
 } from "react-icons/fa6";
 import SidebarOpenItem from "./SidebarOpenItem";
 import SidebarCloseItem from "./SidebarCloseItem";
@@ -16,11 +20,39 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
   const [open, setOpen] = React.useState(true);
   const handleOpenMenu = () => setOpen(!open);
   const [menus, setMenus] = React.useState([
-    { icon: <FaHouse />, textMenu: "Accueil" },
-    { icon: <FaChartBar />, textMenu: "Tableau de bord" },
-    { icon: <FaEarthAfrica />, textMenu: "Districs" },
-    { icon: <FaFlag />, textMenu: "Regions" },
-    { icon: <FaUser />, textMenu: "Utilisateurs" },
+    { icon: <FaHouse />, textMenu: "Accueil", link: "#" },
+    { icon: <FaChartBar />, textMenu: "Tableau de bord", link: "#" },
+    {
+      icon: <FaEarthAfrica />,
+      textMenu: "Districs",
+      link: "/compte/districts",
+    },
+    { icon: <FaFlag />, textMenu: "Regions", link: "/compte/regions" },
+    {
+      icon: <FaRegFlag />,
+      textMenu: "Pays",
+      link: "/compte/pays",
+    },
+    {
+      icon: <FaLandmark />,
+      textMenu: "Zones",
+      link: "/compte/zones",
+    },
+    {
+      icon: <FaTags />,
+      textMenu: "Clubs",
+      link: "/compte/clubs",
+    },
+    {
+      icon: <FaUserGroup />,
+      textMenu: "Membres",
+      link: "/compte/membres",
+    },
+    {
+      icon: <FaUser />,
+      textMenu: "Utilisateurs",
+      link: "/compte/utilisateurs",
+    },
   ]);
 
   return (
@@ -59,6 +91,9 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
 
           {/* ****** --- LES MENUS DE SIDEBAR --- ******* */}
           <div>
+            {open && (
+              <span className="text-xs text-justify text-gray-500">menu</span>
+            )}
             <ul className="flex flex-col space-y-2 mt-2">
               {open
                 ? menus.map((data, index) => (
@@ -66,6 +101,7 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
                       key={index}
                       icon={data.icon}
                       textMenu={data.textMenu}
+                      link={data.link}
                     />
                   ))
                 : menus.map((data, index) => (
@@ -73,6 +109,7 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
                       key={index}
                       icon={data.icon}
                       textMenu={data.textMenu}
+                      link={data.link}
                     />
                   ))}
             </ul>
@@ -83,10 +120,13 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
       </aside>
       <aside
         className={`fixed w-full h-full bg-black bg-opacity-50 z-50 block lg:hidden transition-all duration-500 ${
-          openMenuMobile ? "block" : "hidden"
+          openMenuMobile
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 -translate-x-full"
         }`}
+        // className="fixed w-full h-full bg-black bg-opacity-50 z-50 opacity-0 block lg:hidden transition-all duration-500"
       >
-        <div className="absolute top-0 left-0 bg-white w-[300px] h-full box-border">
+        <div className="absolute top-0 left-0 bg-white sm:w-[300px] w-full h-full box-border">
           <button
             className="text-red-500 text-2xl absolute top-4 right-4"
             onClick={closeMenuMobile}
@@ -104,6 +144,8 @@ export default function Sidebar({ openMenuMobile, closeMenuMobile }) {
                   key={index}
                   icon={data.icon}
                   textMenu={data.textMenu}
+                  link={data.link}
+                  closeMenuMobile={closeMenuMobile}
                 />
               ))}
             </ul>

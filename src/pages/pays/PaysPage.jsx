@@ -3,20 +3,17 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import HeaderComponent from "../../components/header/HeaderComponent";
 import TitlePage from "../../components/utilities/TitlePage";
 import ConfirmModalDelete from "../../components/utilities/ConfirmModalDelete";
-import ListZones from "../../components/zones/ListZones";
-import CardZones from "../../components/zones/CardZones";
+import ListPays from "../../components/pays/ListPays";
+import CardPays from "../../components/pays/CardPays";
 import SearchField from "../../components/utilities/SearchField";
-import AddZoneModal from "../../components/zones/AddZoneModal";
-import EditZoneModal from "../../components/zones/EditZoneModal";
-import DeleteZoneModal from "../../components/zones/DeleteZoneModal";
+import { useQuery } from "@tanstack/react-query";
+import { BACKEND_PROXY } from "../../../proxy";
+import axios from "axios";
+import AddPaysModal from "../../components/pays/AddPaysModal";
+import EditPaysModal from "../../components/pays/EditPaysModal";
+import ConfirmDeletePays from "../../components/pays/ConfirmDeletePays";
 
-export default function ZonePage() {
-  // state pour stocker l id du zone
-  const [zoneId, setZoneId] = React.useState(null);
-
-  // state pour stocker l id du region
-  const [regionId, setRegionId] = React.useState(null);
-
+export default function PaysPage() {
   // state pour stocker l id du pays
   const [paysId, setPaysId] = React.useState(null);
 
@@ -30,42 +27,61 @@ export default function ZonePage() {
   const [openModalDelete, setOpenModalDelete] = React.useState(false);
 
   // state pour permettre d ouvrir ou de fermer le modal d ajout
-  const [openAddModal, setOpenAddModal] = React.useState(false);
+  const [openAddPays, setOpenAddPays] = React.useState(false);
 
   // state pour permettre d ouvrir ou de fermer le modal d editer
-  const [openEditModal, setOpenEditModal] = React.useState(false);
+  const [openEditPays, setOpenEditPays] = React.useState(false);
 
-  // fonction pour recuperer l id du zone a modifier
-  const handleOpenEditModal = (id, idRegion, idPays) => {
-    setZoneId(id);
-    setRegionId(idRegion);
-    setPaysId(idPays);
-    setOpenEditModal(true);
+  // utilisation pour fetching les donnees
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["pays"],
+    queryFn: () =>
+      axios
+        .get("/pays/")
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => console.log(err.response.status)),
+  });
+
+  if (isLoading) {
+    console.log("loading data for country...");
+  }
+  if (error) {
+    console.log(error);
+  }
+  if (data) {
+    console.log(data);
+  }
+
+  // fonction pour recuperer l id et d ouvrir le modal d editer a la fois
+  const handleEditPays = (id) => {
+    setPaysId(id);
+    setOpenEditPays(true);
   };
 
-  // fonction pour recuperer l id du zone a supprimer
-  const handleOpenDeleteModal = (id, idRegion) => {
-    setZoneId(id);
+  // fonction pour recuperer l id et d ouvrir le modal de suppression a la fois
+  const handleDeletePays = (id) => {
+    setPaysId(id);
     setOpenModalDelete(true);
   };
 
   return (
     <>
-      <EditZoneModal
-        open={openEditModal}
-        handleClose={() => setOpenEditModal(false)}
-        id={zoneId}
-        idPays={paysId}
-        idRegion={regionId}
+      <EditPaysModal
+        link={BACKEND_PROXY + "pays/" + paysId}
+        open={openEditPays}
+        handleClose={() => setOpenEditPays(false)}
+        id={paysId}
       />
-      <AddZoneModal
-        open={openAddModal}
-        handleClose={() => setOpenAddModal(false)}
+      <AddPaysModal
+        open={openAddPays}
+        handleClose={() => setOpenAddPays(false)}
       />
-      <DeleteZoneModal
+      <ConfirmDeletePays
         open={openModalDelete}
         handleClose={() => setOpenModalDelete(false)}
-        id={zoneId}
+        id={paysId}
       />
       <Sidebar
         openMenuMobile={openMenuMobile}
@@ -75,27 +91,27 @@ export default function ZonePage() {
         <HeaderComponent handleOpenMenuMobile={() => setOpenMenuMobile(true)} />
         <div className="box-border lg:p-6 p-2 text-justify w-full">
           <div className="w-full">
-            <TitlePage>Les Zones</TitlePage>
+            <TitlePage>Les pays</TitlePage>
           </div>
 
           <div className="w-full flex flex-col-reverse space-y-3 md:space-y-0 md:flex-row md:justify-between md:items-center mb-4 md:space-x-5">
             <SearchField
-              placeholder={"rechercher zone..."}
+              placeholder={"rechercher pays..."}
               handleSearchTerm={setSearchTerm}
               searchTerm={searchTerm}
             />
             <button
-              onClick={() => setOpenAddModal(true)}
+              onClick={() => setOpenAddPays(true)}
               className="bg-blue-500 text-sm px-4 h-10 font-semibold rounded-sm text-white flex-shrink-0 box-border hover:bg-blue-700 transition-all duration-300"
             >
-              Nouveau zone
+              Nouveau pays
             </button>
           </div>
           <div>
-            <ListZones
-              handleOpenModalDelete={handleOpenDeleteModal}
+            <ListPays
+              handleOpenModalDelete={handleDeletePays}
               searchTerm={searchTerm}
-              handleOpenModalEdit={handleOpenEditModal}
+              handleOpenModalEdit={handleEditPays}
             />
           </div>
         </div>
